@@ -1,3 +1,5 @@
+const bitlyToken = "<Your Bitly Access Token>";
+
 /**
  * Shorten url link wiht Bitly API
  *
@@ -6,7 +8,6 @@
  * @customfunction
  */
 function shortURL(longurl) {
-  const bitlyToken = "<Your Bitly Access Token>";
   const shortenEndPoint = "https://api-ssl.bitly.com/v4/shorten";
 
   const options = {
@@ -52,8 +53,7 @@ function isValidHttpUrl(string) {
  */
 function getClicksSummary(bitlyshortlink) {
   const bitlink = bitlyshortlink.split("//")[1];
-
-  const bitlyToken = "0bee5e36fa55669973fcf70c5fa5e98e8a368d4c";
+  
   const clicksSummaryEndPoint = `https://api-ssl.bitly.com/v4/bitlinks/${bitlink}/clicks/summary`;
   Logger.log(clicksSummaryEndPoint)
 
