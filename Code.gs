@@ -1,12 +1,12 @@
 /**
  * Shorten url link wiht Bitly API
  *
- * @param {url} input The value of lonk url.
- * @return The shorten url.
+ * @param {string} longurl The value of lonk url.
+ * @return The shorten url of longurl.
  * @customfunction
  */
 function shortURL(longurl) {
-  const bitlyToken = "<Your Bitly Token>";
+  const bitlyToken = "<Your Bitly Access Token>";
   const shortenEndPoint = "https://api-ssl.bitly.com/v4/shorten";
 
   const options = {
@@ -41,4 +41,33 @@ function isValidHttpUrl(string) {
     return false;
   }
   if (resCode === 200) return true;
+}
+
+/**
+ * Get a Clicks Summary for a Bitlink wiht Bitly API
+ *
+ * @param {string} bitlyshortlink The short link by Bitly API.
+ * @return The clicks summary.
+ * @customfunction
+ */
+function getClicksSummary(bitlyshortlink) {
+  const bitlink = bitlyshortlink.split("//")[1];
+
+  const bitlyToken = "0bee5e36fa55669973fcf70c5fa5e98e8a368d4c";
+  const clicksSummaryEndPoint = `https://api-ssl.bitly.com/v4/bitlinks/${bitlink}/clicks/summary`;
+  Logger.log(clicksSummaryEndPoint)
+
+  const options = {
+    "method": "GET",
+    "headers": {
+      "Authorization": "Bearer " + bitlyToken,
+    }
+  };
+
+  try {
+    const totalClicks = JSON.parse(UrlFetchApp.fetch(clicksSummaryEndPoint, options));
+    return totalClicks.total_clicks;
+  } catch (error) {
+    return "⚠️Error From Bitly";
+  }
 }
